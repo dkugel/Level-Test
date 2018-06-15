@@ -11874,7 +11874,7 @@ textarea.parsley-success:focus {
   right: 0;
   left: 0;
   z-index: 1030;
-  background-color: #2b333e;
+  background-color: #85c227;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -11963,7 +11963,7 @@ textarea.parsley-success:focus {
 .navicon-left {
   width: 60px;
   height: 60px;
-  background-color: #313a47;
+  background-color: #70a916;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12027,7 +12027,7 @@ textarea.parsley-success:focus {
   left: -230px;
   width: 230px;
   height: 60px;
-  background-color: #384250;
+  background-color: #85c227;
   font-size: 22px;
   font-weight: 600;
   padding: 0 20px;

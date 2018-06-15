@@ -28,7 +28,7 @@
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Registro de EDS</title>
+    <title>Finalización y Envío</title>
 
     <!-- vendor css -->
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -39,6 +39,7 @@
 
     <!-- Starlight CSS -->
     <link rel="stylesheet" href="../css/starlight.css">
+    <link rel="stylesheet" href="../css/custom.css">
   </head>
 
   <body>
@@ -66,7 +67,6 @@
       <br>
     </div><!-- sl-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
-
     <!-- ########## START: HEAD PANEL ########## -->
     <div class="sl-header">
       <div class="sl-header-left">
@@ -91,92 +91,111 @@
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
-        </nav>        
+        </nav>
+        
       </div><!-- sl-header-right -->
     </div><!-- sl-header -->
-    <!-- ########## END: HEAD PANEL ########## -->
-    
+    <!-- ########## END: HEAD PANEL ########## -->      
+
     <!-- ########## START: MAIN PANEL ########## -->
     <div class="sl-mainpanel">
       <nav class="breadcrumb sl-breadcrumb">
         <a class="breadcrumb-item" href="/">Kugel Electronics</a>
-        <span class="breadcrumb-item active">Registro</span>
+        <a class="breadcrumb-item" href="registro.php">Registro</a>
+        <span class="breadcrumb-item active">Revisión</span>
       </nav>
             
       <div class="sl-pagebody">
         <div class="sl-page-title">
-          <h5>Registro EDS</h5>
-          <p>Se realiza el registro de la estación para el control y emparejamiento de la prueba con el lugar de realización.</p>
+          <h5>Selección Tanque</h5>
+          <p>Seleccione uno de los tanques registrados para iniciar la prueba.</p>
         </div><!-- sl-page-title -->
 
         <div class="card pd-20 pd-sm-40">
-          <h6 class="card-body-title">Información de la Estación de Servicio</h6>
+          <h6 class="card-body-title">Tanque a verificar</h6>
           <p class="mg-b-20 mg-sm-b-30">Registre la información solicitada.</p>
           <form action="" method="post">
             <div class="form-layout">
               <div class="row mg-b-25">
                 <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">Nombre Estación: <span class="tx-danger">*</span></label>
-                    <input class="form-control" type="text" name="name" value="" placeholder="Ingrese nombre EDS" required>                  
-                  </div>
-                </div><!-- col-4 -->
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">Dirección EDS: <span class="tx-danger">*</span></label>
-                    <input class="form-control" type="text" name="address" value="" placeholder="Dirección EDS" required>
-                  </div>
-                </div><!-- col-4 -->
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="form-control-label">Teléfono: <span class="tx-danger">*</span></label>
-                    <input class="form-control" type="text" name="phone" value="" placeholder="Teléfono" required>
-                  </div>
-                </div><!-- col-4 -->
-                <div class="col-lg-8">
                   <div class="form-group mg-b-10-force">
-                    <label class="form-control-label">Encargado: </label>
-                    <input class="form-control" type="text" name="manager" value="" placeholder="Administrador">
+                    <label class="form-control-label">Serial: <span class="tx-danger">*</span></label>                    
+                      <?php
+                        $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
+                        or die('Can not connect: ' . \pg_last_error());
+                        $query = "SELECT  PKidTanque, serialTanque FROM Tanque ORDER BY PKidTanque;";
+                        $result = pg_query($query) or die('Query error: ' . \pg_last_error());
+                        echo "<select class='form-control' data-placeholder='Seleccione Tanque' name='select1'>";
+                        while($fila=  pg_fetch_row($result)){
+                          echo "<option value=".$fila[0].">".$fila[1]."</option>";
+                        }
+                        echo "</select>";
+                        pg_close($dbconn);
+                      ?>
                   </div>
-                </div><!-- col-8 -->              
+                </div><!-- col-4 -->
+                                                                          
               </div><!-- row -->
-  
-              <div class="form-layout-footer">
-                <input class="btn btn-info mg-r-5" type="submit" name="enviar" value="Enviar" />              
-                <input  class="btn btn-secondary" type="reset" value="Limpiar"/>
-              </div><!-- form-layout-footer -->
+              <div class="row mg-b-25">
+                <div class="col-lg-4">
+                  <div class="form-layout-footer">
+                    <input class="btn btn-info btn-block mg-b-10" type="submit" name="enviar" value="Iniciar Test" />              
+                  </div><!-- form-layout-footer -->
+                </div>
+              </div>
             </div><!-- form-layout -->
           </form>
+          <br>
+          <form action="" method="post">
+            <div class="form-layout">
+              <div class="row mg-b-25">
+                <div class="col-lg-4">
+                  <div class="form-layout-footer">
+                    <input class="btn btn-danger active btn-block mg-b-10" type="submit" name="detener" value="Detener Test" />              
+                  </div><!-- form-layout-footer -->
+                </div><!-- col-4 -->
+                                                                          
+              </div><!-- row -->
+            </div><!-- form-layout -->
+          </form>
+          <br>
           <p></p>
-          <?php 
-            if (filter_input(INPUT_POST,'enviar')) {   
-              $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
-              or die('Can not connect: ' . \pg_last_error());                                                                                
-              $nombre    = filter_input(INPUT_POST,'name');
-              $direccion = filter_input(INPUT_POST,'address');
-              $telefono  = filter_input(INPUT_POST,'phone');
-              $encargado = filter_input(INPUT_POST,'manager');
-              $query = "INSERT INTO EDS (nombreEstacion, direccionEstacion, telefonoEstacion, encargadoEstacion) VALUES('$nombre','$direccion','$telefono','$encargado') ";
-              $result = pg_query($query) or die('Query error: ' . \pg_last_error());
-              // Liberando el conjunto de resultados
-              pg_free_result($result);
-              // Cerrando la conexión
-              pg_close($dbconn);
-              echo "<div class='row mg-b-25'>
-                      <div class='col-lg-8'>
-                        <h3 class='tx-success tx-lato tx-center mg-b-15'>Gracias, hemos recibido su información.</h3>
-                      </div>
-                      <div class='col-lg-4'>
-                        <div class='link-php'>
-                          <a href='tanque.php' class='btn btn-outline-success btn-block mg-b-10'>Continuar</a>                            
-                        </div>
-                      </div>
-                    </div>";
-            }
-          ?>
-        </div><!-- card -->
-              
+          <?php              
+              if (filter_input(INPUT_POST,'enviar')) {   
+                  $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
+                  or die('Can not connect: ' . \pg_last_error());
+                  $tanque = filter_input(INPUT_POST,'select1');                                                  
+                  $query  = "INSERT INTO Sensor (FKidTanque, valorAnalogo, activarTest) VALUES('$tanque',0,'1') ";
+                  $result = pg_query($query) or die('Query error: ' . \pg_last_error());
+                  // Liberando el conjunto de resultados
+                  pg_free_result($result);
+                  // Cerrando la conexión
+                  pg_close($dbconn);
 
+                  echo "<div class='row mg-b-25'>
+                          <div class='col-lg-8'>
+                            <h3 class='tx-success tx-lato tx-center mg-b-15'>Gracias, La prueba ha iniciado correctamente.</h3>
+                          </div>                          
+                        </div>";
+              }
+              if (filter_input(INPUT_POST,'detener')) {   
+                  $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
+                  or die('Can not connect: ' . \pg_last_error());                                                 
+                  $query  = "UPDATE Sensor SET activarTest = '0' WHERE idMedicion = (SELECT MAX(idMedicion) FROM Sensor);";                  
+                  $result = pg_query($query) or die('Query error: ' . \pg_last_error());
+                  // Liberando el conjunto de resultados
+                  pg_free_result($result);
+                  // Cerrando la conexión
+                  pg_close($dbconn);
+
+                  echo "<div class='row mg-b-25'>
+                          <div class='col-lg-8'>
+                            <h3 class='tx-success tx-lato tx-center mg-b-15'>La prueba ha finalizado.</h3>
+                          </div>                          
+                        </div>";
+              }
+          ?>
+      </div><!-- card -->
       </div><!-- sl-pagebody -->
       <footer class="sl-footer">
         <div class="footer-left">
@@ -199,15 +218,6 @@
     <script src="../lib/highlightjs/highlight.pack.js"></script>
     <script src="../lib/select2/js/select2.min.js"></script>
 
-    <script src="../js/starlight.js"></script>
-    <script>
-      $(function(){
-        'use strict';
-
-        $('.select2').select2({
-          minimumResultsForSearch: Infinity
-        });
-      });
-    </script>
+    <script src="../js/starlight.js"></script>    
   </body>
 </html>
