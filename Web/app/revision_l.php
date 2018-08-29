@@ -19,16 +19,16 @@
         <div class="col-8">          
           <h1>Revisión</h1>
           <div id="app">            
-            <h2>{{msg3}}</h2>            
+            <h2>{{msg4}}</h2>            
             <form class="formulario" method="post" action="">
               <label>Serial Tanque:</label>
               <?php
                 $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                 or die('Can not connect: ' . \pg_last_error());
-                $query = "SELECT  pkidtanque, serialtanque FROM tanque ORDER BY pkidtanque;";
+                $query = "SELECT  pkidlinea, identificacionlinea FROM linea ORDER BY pkidlinea;";
                 $result = pg_query($query) or die('Query error: ' . \pg_last_error());
-                echo "<select v-model='selected'  data-placeholder='Seleccione Tanque' name='select1'>";
-                  echo "<option disabled value=''>Seleccione Tanque</option>";
+                echo "<select v-model='selected'  data-placeholder='Seleccione Línea' name='select1'>";
+                  echo "<option disabled value=''>Seleccione Línea</option>";
                 while($fila=  pg_fetch_row($result)){
                   echo "<option value=".$fila[0].">".$fila[1]."</option>";
                 }
@@ -51,7 +51,7 @@
                   $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                   or die('Can not connect: ' . \pg_last_error());
                   $tanque = filter_input(INPUT_POST,'select1');                                                  
-                  $query  = "INSERT INTO sensor (fkidtanque, valoranalogo, activartest) VALUES('$tanque',0,'1') ";
+                  $query  = "INSERT INTO sensor_presion (fkidtanque, valoranalogo, activartest) VALUES('$tanque',0,'1') ";
                   $result = pg_query($query) or die('Query error: ' . \pg_last_error());
                   // Liberando el conjunto de resultados
                   pg_free_result($result);
@@ -63,7 +63,7 @@
               if (filter_input(INPUT_POST,'detener')) {   
                   $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                   or die('Can not connect: ' . \pg_last_error());                                                 
-                  $query  = "UPDATE sensor SET activartest = '0' WHERE idmedicion = (SELECT MAX(idmedicion) FROM sensor);";                  
+                  $query  = "UPDATE sensor_presion SET activartest = '0' WHERE idmedicion = (SELECT MAX(idmedicion) FROM sensor_presion);";                  
                   $result = pg_query($query) or die('Query error: ' . \pg_last_error());
                   // Liberando el conjunto de resultados
                   pg_free_result($result);

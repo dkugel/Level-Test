@@ -26,7 +26,7 @@
               <?php
                 $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                 or die('Can not connect: ' . \pg_last_error());
-                $query = "SELECT  pkidEstacion, nombreestacion FROM EDS ORDER BY pkidestacion;";
+                $query = "SELECT  pkidestacion, nombreestacion FROM eds ORDER BY pkidestacion;";
                 $result = pg_query($query) or die('Query error: ' . \pg_last_error());
                 echo "<select v-model='selected'  data-placeholder='Seleccione EDS' name='select1'>";
                   echo "<option disabled value=''>Seleccione EDS</option>";
@@ -36,20 +36,19 @@
                 echo "</select>";
                 pg_close($dbconn);
               ?>
-              <label>Serial:</label>
-              <input v-model="serial" placeholder="Serial del Tanque" name="serial" required>
-              <label>Capacidad del tanque:</label>
-              <input v-model="capacidad" placeholder="2.000" name="capacity" required>
-              <label>Unidad de almacenamiento:</label>
-              <select v-model='selected2' data-placeholder="Escoja unidad" name='select2'>
-                <option disabled value="">Escoja unidad</option>
-                <option value="G">Galón Americano</option>
-                <option value="UK">Galón Británico</option>
-                <option value="L">Litros</option>                     
+              <label>Identificación de la línea:</label>
+              <input v-model="idlinea" placeholder="Nombre o id de la línea" name="idlinea" required>
+              <label>Material de la línea:</label>
+              <input v-model="capacidad" placeholder="Material" name="material" required>
+              <label>Tipo de línea:</label>
+              <select v-model='selected2' data-placeholder="Escoja uso" name='select2'>
+                <option disabled value="">Escoja uso</option>
+                <option value="C">Conducción</option>
+                <option value="D">Desfogue</option>                
               </select>
               <label>Producto:</label>
               <input v-model="producto" placeholder="Producto" name="product" required>
-              <p>{{ selected }}<br>{{serial}}<br>{{capacidad}}<br>{{selected2}}<br>{{producto}}</p>
+              <p>{{ selected }}<br>{{ idlinea }}<br>{{capacidad}}<br>{{selected2}}<br>{{producto}}</p>
               <div class="row" >
                 <div class="col-6">
                   <input class="btn btn-info" type="submit" name="enviar" value="Enviar" />
@@ -62,29 +61,28 @@
             <p>Si los datos son correctos presione el botón "Enviar"</p>
             <?php              
               if (filter_input(INPUT_POST,'enviar')) {   
-                  $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
-                  or die('Can not connect: ' . \pg_last_error());
-                  $ideds     = filter_input(INPUT_POST,'select1');
-                  $serial    = filter_input(INPUT_POST,'serial');                                    
-                  $capacidad = filter_input(INPUT_POST,'capacity');
-                  $unidad    = filter_input(INPUT_POST,'select2');
-                  $producto  = filter_input (INPUT_POST,'product');                                  
-                  $query = "INSERT INTO tanque (fkidestacion, capacidadtanque, unidadmedida, productotanque,serialtanque) VALUES('$ideds','$capacidad','$unidad','$producto','$serial') ";
-                  $result = pg_query($query) or die('Query error: ' . \pg_last_error());
-                  // Liberando el conjunto de resultados
-                  pg_free_result($result);
-                  // Cerrando la conexión
-                  pg_close($dbconn);
+                $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
+                or die('Can not connect: ' . \pg_last_error());
+                $idlinea   = filter_input(INPUT_POST,'idlinea');
+                $ideds     = filter_input(INPUT_POST,'select1');
+                $material  = filter_input(INPUT_POST,'material');                                   
+                $tipo      = filter_input(INPUT_POST,'select2');
+                $producto  = filter_input (INPUT_POST,'product');                                  
+                $query = "INSERT INTO linea (fkidestacion, identificacionlinea,tipolinea, productolinea, composicionlinea) VALUES('$ideds','$idlinea','$tipo','$producto','$material') ";
+                $result = pg_query($query) or die('Query error: ' . \pg_last_error());
+                // Liberando el conjunto de resultados
+                pg_free_result($result);
+                // Cerrando la conexión
+                pg_close($dbconn);
 
-                  echo '<h3>Gracias, hemos recibido su información.</h3>
-                        <div class="link-php">
-                          <a href="revision.php" class="btn btn-outline-success ">Selección Tanque</a>                                                                                                      
-                        </div>
-                        ';
+                echo '<h3>Gracias, hemos recibido su información.</h3>
+                      <div class="link-php">
+                        <a href="revision_l.php" class="btn btn-outline-success ">Selección línea</a>                                                                                                      
+                      </div>
+                      ';
               }
           ?>
-          </div>
-          
+          </div>          
         </div>
         <div class="col-2">        
         </div>

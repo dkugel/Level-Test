@@ -4,12 +4,31 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
+    <!-- Starlight CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <title>Kugel Electronics :: Pruebas</title>
   </head>
   <body>
-    <script>
-    // similar behavior as an HTTP redirect
-    window.location.replace("app/index.html");
-    </script>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-2">        
+        </div>
+        <div class="col-8">
+          <img class="logo img-fluid" src="img/kugel.png">
+          <h1>SISTEMA DE PRUEBAS DE HERMETICIDAD</h1>
+          <div id="app">
+            {{msg}} <br>
+            {{sub}}
+          </div>          
+          <a href="app/registro.php" class="mx-auto btn btn-outline-success" style="display: block;max-width: 8em;">Inicio</a>                     
+        </div>
+        <div class="col-2">        
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
