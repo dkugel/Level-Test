@@ -21,26 +21,6 @@
           <div id="app">            
             <h2>{{sub}}</h2>
             <h3>{{msg2}}</h3>
-            <form class="formulario" method="post" action="">
-              <label>Nombre estación:</label>
-              <input v-model="estacion" placeholder="Nombre de estación" name="name" required>
-              <label>Dirección EDS:</label>
-              <input v-model="direccion" placeholder="Dirección de estación" name="address" required>
-              <label>Teléfono EDS:</label>
-              <input v-model="telefono" placeholder="Número telefónico" name="phone" required>
-              <label>Encargado EDS:</label>
-              <input v-model="encargado" placeholder="Administrador / Encargado" name="manager" >
-              <p>{{ estacion }}<br>{{direccion}}<br>{{telefono}}<br>{{encargado}}</p>              
-              <div class="row">
-                <div class="col-6">
-                  <input class="btn btn-info" type="submit" name="enviar" value="Enviar" />
-                </div>
-                <div class="col-6">
-                  <input  class="btn btn-secondary" type="reset" value="Limpiar"/>
-                </div>
-              </div>
-            </form><br>
-            <p>Si los datos son correctos presione el botón "Enviar"</p>
             <?php
               if (filter_input(INPUT_POST,'enviar')) {   
                   $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
@@ -63,6 +43,26 @@
                         ';
                 }
             ?>
+            <form class="formulario" method="post" action="">
+              <label>Nombre estación:</label>
+              <input v-model="estacion" placeholder="Nombre de estación" name="name" required>
+              <label>Dirección EDS:</label>
+              <input v-model="direccion" placeholder="Dirección de estación" name="address" required>
+              <label>Teléfono EDS:</label>
+              <input v-model="telefono" placeholder="Número telefónico" name="phone" required>
+              <label>Encargado EDS:</label>
+              <input v-model="encargado" placeholder="Administrador / Encargado" name="manager" >
+              <p>{{ estacion }}<br>{{direccion}}<br>{{telefono}}<br>{{encargado}}</p>              
+              <div class="row">
+                <div class="col-6">
+                  <input class="btn btn-info" type="submit" name="enviar" value="Enviar" />
+                </div>
+                <div class="col-6">
+                  <input  class="btn btn-secondary" type="reset" value="Limpiar"/>
+                </div>
+              </div>
+            </form><br>
+            <p>Si los datos son correctos presione el botón "Enviar"</p>            
           </div>
           
         </div>

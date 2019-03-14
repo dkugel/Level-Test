@@ -12,7 +12,7 @@ body{
 }
 .logo{display:block;margin:2em auto;}
 h1{text-align: center;font-size: 1.8em;padding-top: 1em;}
-h2{text-align: center;font-size: 1.2em;padding-top: 1em;}
+h2{text-align: center;font-size: 2em;padding-top: 1em;}
 h3{text-align: center;font-size: 1em;padding-top: 1em;}
 a {margin-top: 2em;color:#23BF08;text-align: center;text-decoration: none;}
 #app {  
@@ -46,3 +46,22 @@ a {margin-top: 2em;color:#23BF08;text-align: center;text-decoration: none;}
 .formulario select { width: 100%;padding: 0.4em;box-shadow: 1px 1px #bbbaba;}
 .formulario label{ padding-top: 0.7em;font-weight: bolder;}
 .formulario p{margin-left: 5em; padding-top: 1em}
+
+@media (max-width:720px){
+  #app {
+    margin-top: 0;
+  }
+  .formulario label {
+    font-size: 1.5em;
+  }
+  .formulario input {
+    padding: 1em;
+  }
+  .formulario select {
+    padding: 1em;
+  }
+  .btn {
+    font-weight: bold;
+    font-size: 1.5em;    
+  }
+}

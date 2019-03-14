@@ -14,19 +14,42 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-2">
-          <img src="../img/kugel_trans_peq.png" style="padding-top: 1em;">
+        <a href="../index.html"><img src="../img/kugel_trans_peq.png" style="padding-top: 1em;"></a>
         </div>
         <div class="col-8">          
           <h1>Registro EDS</h1>
           <div id="app">            
             <h2>{{sub}}</h2>
             <h3>{{msg2}}</h3>
+            <?php              
+              if (filter_input(INPUT_POST,'enviar')) {   
+                $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
+                or die('Can not connect: ' . \pg_last_error());
+                $idlinea   = filter_input(INPUT_POST,'idlinea');
+                $ideds     = filter_input(INPUT_POST,'select1');
+                $material  = filter_input(INPUT_POST,'material');                                   
+                $tipo      = filter_input(INPUT_POST,'select2');
+                $producto  = filter_input (INPUT_POST,'product');                                  
+                $query = "INSERT INTO linea (fkidestacion, identificacionlinea,tipolinea, productolinea, composicionlinea) VALUES('$ideds','$idlinea','$tipo','$producto','$material') ";
+                $result = pg_query($query) or die('Query error: ' . \pg_last_error());
+                // Liberando el conjunto de resultados
+                pg_free_result($result);
+                // Cerrando la conexión
+                pg_close($dbconn);
+
+                echo '<h3>Gracias, hemos recibido su información.</h3>
+                      <div class="link-php">
+                        <a href="revision_l.php" class="btn btn-outline-success ">Selección línea</a>                                                                                                      
+                      </div>
+                      ';
+              }
+            ?>
             <form class="formulario" method="post" action="">
               <label>Nombre estación:</label>
               <?php
                 $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                 or die('Can not connect: ' . \pg_last_error());
-                $query = "SELECT  pkidestacion, nombreestacion FROM eds ORDER BY pkidestacion;";
+                $query = "SELECT  ideds, nombreestacion FROM eds ORDER BY ideds;";
                 $result = pg_query($query) or die('Query error: ' . \pg_last_error());
                 echo "<select v-model='selected'  data-placeholder='Seleccione EDS' name='select1'>";
                   echo "<option disabled value=''>Seleccione EDS</option>";
@@ -58,30 +81,7 @@
                 </div>
               </div>
             </form><br>
-            <p>Si los datos son correctos presione el botón "Enviar"</p>
-            <?php              
-              if (filter_input(INPUT_POST,'enviar')) {   
-                $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
-                or die('Can not connect: ' . \pg_last_error());
-                $idlinea   = filter_input(INPUT_POST,'idlinea');
-                $ideds     = filter_input(INPUT_POST,'select1');
-                $material  = filter_input(INPUT_POST,'material');                                   
-                $tipo      = filter_input(INPUT_POST,'select2');
-                $producto  = filter_input (INPUT_POST,'product');                                  
-                $query = "INSERT INTO linea (fkidestacion, identificacionlinea,tipolinea, productolinea, composicionlinea) VALUES('$ideds','$idlinea','$tipo','$producto','$material') ";
-                $result = pg_query($query) or die('Query error: ' . \pg_last_error());
-                // Liberando el conjunto de resultados
-                pg_free_result($result);
-                // Cerrando la conexión
-                pg_close($dbconn);
-
-                echo '<h3>Gracias, hemos recibido su información.</h3>
-                      <div class="link-php">
-                        <a href="revision_l.php" class="btn btn-outline-success ">Selección línea</a>                                                                                                      
-                      </div>
-                      ';
-              }
-          ?>
+            <p>Si los datos son correctos presione el botón "Enviar"</p>            
           </div>          
         </div>
         <div class="col-2">        

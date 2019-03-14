@@ -14,7 +14,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-2">
-          <img src="../img/kugel_trans_peq.png" style="padding-top: 1em;">
+          <a href="../index.html"><img src="../img/kugel_trans_peq.png" style="padding-top: 1em;"></a>
         </div>
         <div class="col-8">          
           <h1>Revisión</h1>
@@ -44,6 +44,11 @@
                   <input  class="btn btn-danger" type="submit" name="detener" value="Detener Test"/>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-12">
+                  <a class="btn btn-warning" href="../index.html" style="margin: 20px 25%;">Regresar a inicio</a>
+                </div>
+              </div>
             </form><br>
             
             <?php              
@@ -51,7 +56,7 @@
                   $dbconn = pg_connect("host=127.0.0.1 dbname=truecheck user=db_admin password='12345'")
                   or die('Can not connect: ' . \pg_last_error());
                   $tanque = filter_input(INPUT_POST,'select1');                                                  
-                  $query  = "INSERT INTO sensor_presion (fkidtanque, valoranalogo, activartest) VALUES('$tanque',0,'1') ";
+                  $query  = "INSERT INTO sensor_presion (fkidlinea, valoranalogo, activartest, horamedicion) VALUES('$tanque',0,'1',LOCALTIMESTAMP) ";
                   $result = pg_query($query) or die('Query error: ' . \pg_last_error());
                   // Liberando el conjunto de resultados
                   pg_free_result($result);
@@ -72,7 +77,7 @@
 
                   echo "<h2 class='tx-success'>La prueba ha finalizado.</h2>";
               }
-          ?>
+             ?>
           </div>
           
         </div>
